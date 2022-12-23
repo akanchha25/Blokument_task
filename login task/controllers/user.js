@@ -4,6 +4,7 @@ const connection = require('../model/db');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const queries = require('../queries');
 
 const register = async (req, res) => {
     
@@ -26,7 +27,7 @@ const register = async (req, res) => {
             res.status(422).json({error: "Email already exists. "});
         }
 
-        const query = `INSERT INTO users(name,email,age,password)  VALUES('${name}','${email}',${age},'${password2}')`
+        const query = `INSERT INTO user_details(name,email,age,password)  VALUES('${name}','${email}',${age},'${password2}')`
 
         const resp = await connection.query(query)
 
@@ -58,12 +59,13 @@ const login = async (req, res) =>{
        
       // res.json({message: "user Logged in successfully"});
        const user_id = getUser.rows[0].ID;
+       console.log(user_id);
 
        if(!getUser.rows.length){
         res.status(400).json({error : "user not found"});
        }
 
-       const ismatch = await bcrypt.compare(password,getUser.row[0].password);
+       const ismatch = await bcrypt.compare(password,getUser.rows[0].password);
 
        if(ismatch === false){
         return res.json({message: "Invalid credentials"});
@@ -74,7 +76,7 @@ const login = async (req, res) =>{
 
         //we are generating token
 
-        const token = jwt.sign({user_id},process.env.JWT_SECRET_KEY,{expiresIn: process.env.EXPIRE_TILL});
+        const token = jwt.sign({user_id},SECRET_KEY,{expiresIn: 3000});
         res.status(200).send({token})
        }
 
@@ -90,13 +92,14 @@ const login = async (req, res) =>{
 }
 exports.varifyToken= async (req,res,next) =>{
     try{
+        let token;
     const bearerHeader = req.headers['authorization'];
     if( typeof bearerHeader !== 'undefined'){
        const bearer = bearerHeader.split(" ");
-       var token = bearer[1];
+       token = bearer[1];
       
     }
-    const decode = jwt.verify(token,process.env.JWT_SECRET_KEY)
+    const decode = jwt.verify(token, process.env.SECRET_KEY);
     req.token = decode;
     next();
 
@@ -108,21 +111,28 @@ exports.varifyToken= async (req,res,next) =>{
     }
             
 }
+
+
 const mydetail = async (req, res) => {
+    try{
     const id = parseInt(req.params.id );
-    pool.queries(queries.mydetail,[id],(error,results) =>{    //mydetail is query from queries.js file (const mydetail = "SELECT address_details.ID, address, city, state, pincode FROM user_details Right JOIN address_details ON address_details.ID = user_details.ID WHERE user_details.ID = $1;
-
-
+    pool.queries(queries.mydetail,[id],(error,results) =>{
         const Info = results.rows.length;
+        
 
         if(!Info){
-            throw ("NO address found.")
+            throw ("NO address found.");
         }
         res.status(200).send({Address: Info.rows[0]})
 
     });
+}catch {
+    if(error)
+    throw error;
+}
 
 }
+
 
 
 
