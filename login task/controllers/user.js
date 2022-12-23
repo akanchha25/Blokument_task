@@ -109,8 +109,8 @@ exports.varifyToken= async (req,res,next) =>{
             
 }
 const mydetail = async (req, res) => {
-    const fetch = req.user_details;
-    pool.queries(queries.mydetail,fetch.ID,(error,results) =>{    //mydetail is query from queries.js file (const mydetail = "SELECT address_details.ID, address, city, state, pincode FROM user_details Right JOIN address_details ON address_details.ID = user_details.ID WHERE user_details.ID = '${user_details.ID}'";
+    const id = parseInt(req.params.id );
+    pool.queries(queries.mydetail,[id],(error,results) =>{    //mydetail is query from queries.js file (const mydetail = "SELECT address_details.ID, address, city, state, pincode FROM user_details Right JOIN address_details ON address_details.ID = user_details.ID WHERE user_details.ID = $1;
 
 
         const Info = results.rows.length;
