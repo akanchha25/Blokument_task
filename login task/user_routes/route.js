@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/', controller.register);
 router.post('/', controller.login);
-router.get('/',controller.varifyToken,controller.mydetail);
+router.get('/:id',controller.varifyToken,controller.mydetail);
 
 
 
