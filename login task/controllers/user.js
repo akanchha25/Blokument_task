@@ -108,10 +108,24 @@ exports.varifyToken= async (req,res,next) =>{
     }
             
 }
+const mydetail = async (req, res) => {
+    const fetch = req.user_details;
+    pool.queries(queries.mydetail,fetch.ID,(error,results) =>{
+        const Info = results.rows.length;
+
+        if(!Info){
+            throw ("NO address found.")
+        }
+        res.status(200).send({Address: Info.rows[0]})
+
+    });
+
+}
 
 
 
 module.exports ={
     register,
-    login
+    login,
+    mydetail
 }
