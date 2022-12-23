@@ -33,7 +33,7 @@ const register = async (req, res) => {
 
         res.status(202).json({message: "User registered successfully"});
 
-       // connection.module.pool.end;
+       
 
         } catch(err){
             console.log(err);
