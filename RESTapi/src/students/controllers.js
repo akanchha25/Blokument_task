@@ -10,6 +10,7 @@ const getStudents = (req, res) =>{
         res.status(200).json(results.rows);
 
 
+
     });
 };
 
