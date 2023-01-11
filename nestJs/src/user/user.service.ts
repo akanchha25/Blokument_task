@@ -139,8 +139,8 @@ export class UserService {
 
     async getDetails(user){
         return this.addressRepository.createQueryBuilder('users_address')
-        .innerJoinAndMapOne('users_address.userId', User, 'users', 'users.id = users_address.userId')
-        .where('users.email_id= :email_id', {email_id:user.email_id})
+        .innerJoinAndMapOne('users_address.user_emailId', User, 'user', 'user.email_id = users_address.user_emailId')
+        .where('users.id= :id', {id:user.id})
         .getMany();
     }
 
