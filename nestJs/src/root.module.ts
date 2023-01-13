@@ -10,6 +10,7 @@ import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
 import { Users_address } from './user/entities/userAddress.entity';
 import { orders } from './order/order.entity';
+import { ImageUploadModule } from './s3-AWS/fileupload.module';
 
 
 @Module({
@@ -56,7 +57,7 @@ import { orders } from './order/order.entity';
 
     
     
-    UserModule, ItemModule, OrderModule],
+    UserModule, ItemModule, OrderModule,ImageUploadModule],
   controllers: [],
   providers: [],
   exports: []

@@ -77,6 +77,9 @@ export class UserService {
         try{
         const{ email_id, password } = getCredentialsDto;
         const user = await this.userRepository.findOne({
+            
+
+
             where:{
                 email_id : email_id
             }
