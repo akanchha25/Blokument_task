@@ -6,7 +6,6 @@ export class FileUploadService {
 
     async upload(file: any) {
         try {
-          console.log("hi");
             const { originalname } = file;
            // console.log(file);
             const bucketS3 = 'owens-images';
