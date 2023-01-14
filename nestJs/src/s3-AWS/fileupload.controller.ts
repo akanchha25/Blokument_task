@@ -12,7 +12,6 @@ export class FileUploadController {
 @UseInterceptors(FileInterceptor('file'))
 async upload(@UploadedFile() file) {
 
-    console.log("hello");
   return await this.fileUploadService.upload(file);
 }
 
